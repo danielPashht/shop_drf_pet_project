@@ -13,14 +13,16 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        groups_data = validated_data.pop('groups', [])
         password = validated_data.pop('password', None)
         user = super().create(validated_data)
+
         if password:
             user.set_password(password)
             user.save()
-        group, created = Group.objects.get_or_create(name=user.groups)
-        user.groups.add(group)
-
+        for group in groups_data:
+            group_instance, created = Group.objects.get_or_create(name=group.name)
+            user.groups.add(group_instance)
         return user
 
     def update(self, instance, validated_data):

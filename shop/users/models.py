@@ -31,7 +31,6 @@ class User(AbstractUser):
         Group,
         related_name='custom_user_set',
         blank=True,
-        default='customer',
         related_query_name='user',
     )
 

@@ -10,7 +10,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'list':
-            permission_classes = [IsCustomerPermission]
+            permission_classes = [IsCustomerPermission()]
         else:
-            permission_classes = [IsManagerPermission]
-        return [permission() for permission in permission_classes]
+            permission_classes = [IsManagerPermission()]
+        return permission_classes
