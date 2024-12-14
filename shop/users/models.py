@@ -31,6 +31,7 @@ class User(AbstractUser):
         Group,
         related_name='custom_user_set',
         blank=True,
+        default='customer',
         related_query_name='user',
     )
 
@@ -53,3 +54,7 @@ class User(AbstractUser):
     @property
     def is_customer(self):
         return self.role == self.Role.CUSTOMER
+
+    @property
+    def is_admin(self):
+        return self.role == self.Role.ADMIN

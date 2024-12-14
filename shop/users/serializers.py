@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from .models import User
 
@@ -5,8 +6,9 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email', 'role', 'cart', 'is_manager']
+        fields = ['id', 'username', 'password', 'email', 'role', 'cart']
         extra_kwargs = {
+            'role': {'required': False},
             'password': {'write_only': True},
         }
 
@@ -16,6 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
         if password:
             user.set_password(password)
             user.save()
+        group, created = Group.objects.get_or_create(name=user.groups)
+        user.groups.add(group)
+
         return user
 
     def update(self, instance, validated_data):
