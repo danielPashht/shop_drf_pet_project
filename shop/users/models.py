@@ -17,6 +17,7 @@ class User(AbstractUser):
         return "{}".format(self.email)
 
     class Role(models.TextChoices):
+        ADMIN = 'admin', _('Admin')
         MANAGER = 'manager', _('Manager')
         CUSTOMER = 'customer', _('Customer')
 
