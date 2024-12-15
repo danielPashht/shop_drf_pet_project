@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from .models import Product
 from shop.permissions import IsManagerPermission, IsCustomerPermission
+
+from .models import Product
 from .serializers import ProductSerializer
 
 
@@ -9,8 +10,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     def get_permissions(self):
-        if self.action == 'list':
-            permission_classes = [IsCustomerPermission()]
+        if self.action in ('list', 'retrieve'):
+            permission_classes = []
         else:
             permission_classes = [IsManagerPermission()]
         return permission_classes
